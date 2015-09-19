@@ -5,7 +5,7 @@ class Population:
 
     def __init__(self, children=[], ratings=[]):
         self.children = []
-        self.ratings = []
+        self.ratings = None
 
     def __hash__(self):
         return hash(self.children) + hash(self.ratings) * hash(13)
@@ -18,4 +18,11 @@ class Population:
 
     def getRatings(self):
         return self.ratings
+
+    def evalPop(self, function, goal):
+        self.ratings = function(self.children,goal)
+
+
+
+
 
