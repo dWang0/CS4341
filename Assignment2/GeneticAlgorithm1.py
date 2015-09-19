@@ -4,7 +4,6 @@ import math
 class GeneticAlgorithm1
     #Give this function a filename and delimiter
     target = 0
-    population = []
     
     def readcsv(self, name):
         temp_input = []
@@ -13,3 +12,5 @@ class GeneticAlgorithm1
                 for row in map_reader:
                     temp_input.append(row)
             self._raw_map = temp_input
+
+
