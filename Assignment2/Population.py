@@ -8,7 +8,7 @@ class Population:
         self.ratings = []
 
     def __hash__(self):
-        return hash(self._x) + hash(self._y) * hash(13)
+        return hash(self.children) + hash(self.ratings) * hash(13)
 
 #How to represent a generation? for printing purpose
     #def __str__(self)
