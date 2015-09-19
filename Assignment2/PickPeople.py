@@ -17,6 +17,10 @@ def pickPeople(list_of_pop, num_pops):
                 else:
                     best_pops.append(pop)
 
+    best = getBestPop(list_of_pop)
+    while(len(best_pops) <= len(list_of_pop)):
+        best_pops.append(best)
+
     return best_pops
 
 def getWorstPop(list_of_pop):
