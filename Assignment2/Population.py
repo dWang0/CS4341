@@ -3,19 +3,28 @@ class Population:
     children = []
     ratings = []
 
-    def __init__(self, children=[], ratings=[]):
+    def __init__(self, children=[]):
         self.children = []
-        self.ratings = []
+        self.ratings = None
 
     def __hash__(self):
         return hash(self.children) + hash(self.ratings) * hash(13)
 
-#How to represent a generation? for printing purpose
-    #def __str__(self)
+    def __str__(self):
+        return str(self.children)
+    def __repr__(self):
+        return self.__str__()
 
     def getChildren(self):
         return self.children
 
     def getRatings(self):
         return self.ratings
+
+    def evalPop(self, function, goal):
+        self.ratings = function(self.children,goal)
+
+
+
+
 
