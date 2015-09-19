@@ -8,10 +8,13 @@ def readcsv(name):
         input_reader = csv.reader(csvfile, quotechar='|')
         for row in input_reader:
             temp_input.append((int(row[0])))
-    # print ("Temp is:",temp_input)
-    return temp_input
+    print ("Temp is:",temp_input)
+    # target = temp_input[0]
+    temp_input.pop(0)
+    return target, temp_input
 
 
 ###main
 response = readcsv("list1.txt")
 print (response)
+
