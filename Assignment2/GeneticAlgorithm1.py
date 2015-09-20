@@ -1,16 +1,17 @@
 import csv
 import math
 
-class GeneticAlgorithm1
-    #Give this function a filename and delimiter
-    target = 0
-    
-    def readcsv(self, name):
-        temp_input = []
-            with open( name, 'rb') as csvfile:
-                input_reader = csv.reader(csvfile, delimiter='\n', quotechar='|')
-                for row in map_reader:
-                    temp_input.append(row)
-            self._raw_map = temp_input
+
+def readcsv(name):
+    temp_input = []
+    with open( name, 'rt') as csvfile:
+        input_reader = csv.reader(csvfile, quotechar='|')
+        for row in input_reader:
+            temp_input.append((int(row[0])))
+    # print ("Temp is:",temp_input)
+    return temp_input
 
 
+###main
+response = readcsv("list1.txt")
+print (response)
