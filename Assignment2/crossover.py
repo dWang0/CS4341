@@ -7,8 +7,10 @@ def crossover(pop_list, num_lists):
     for i in range(0,len(pop_list),1):
         l1,l2 = cross_pop(pop_list[i],pop_list[i+1])
         i = i+1
-        ret_list.append(l1)
-        ret_list.append(l2)
+        ret_list.append(Population(l1))
+        ret_list.append(Population(l1))
+        
+    return ret_list
 
 
 
