@@ -3,43 +3,50 @@ __author__ = 'Ray'
 #Given a list of population, return the list of populations with the highest ratings
 #(the most fit populations) repaces the weakest link with the strongest
 def pickPeople(list_of_pop, num_pops):
-    best_pops = [list_of_pop[0]]
+    sorted_pop = []
 
-    for pop in list_of_pop:
-        for current_best_pop in best_pops:
-            if(pop.getRatings() > current_best_pop.getRatings()):
-                if(len(best_pops) == num_pops):
-                    worst = getWorstPop(best_pops)
-                    #replace the worst best pop with the current pop
-                    best_pops.remove(worst)
-                    best_pops.append(pop)
+    ## Sorts the population by the best pop to worst pop
+    for i in range(len(list_of_pop)):
+        temp,index = getBestPop(list_of_pop)
+        sorted_pop.append(temp)
+        list_of_pop.pop(index)
+    ## Caps the number of pops
+    if num_pops >= len(sorted_pop):
+        num_pops = 1
 
-                else:
-                    best_pops.append(pop)
+    best_pops = []
 
-    best = getBestPop(list_of_pop)
-    while(len(best_pops) <= len(list_of_pop)):
-        best_pops.append(best)
+    ## Get the first part of the list: length of list_of_pop - num_pops
+    for i in range(0,(len(sorted_pop)-num_pops),1):
+        best_pops.append(sorted_pop[i])
+
+    ## Fill the rest of the list.
+    for i in range((len(sorted_pop)-num_pops),len(sorted_pop)-1,1):
+        best_pops.append(sorted_pop[0])
 
     return best_pops
 
+
 def getWorstPop(list_of_pop):
     worst = list_of_pop[0]
+    index = 0
 
-    for pop in list_of_pop:
+    for pop,i in zip(list_of_pop,range(len(list_of_pop))):
         if(pop.getRatings() < worst.getRatings()):
             worst = pop
+            index = i
 
-    return worst
+    return worst,index
 
 def getBestPop(list_of_pop):
+    index = 0
     best = list_of_pop[0]
 
-    for pop in list_of_pop:
-        if(pop.getRatings() < best.getRatings()):
+    for pop,i in zip(list_of_pop,range(len(list_of_pop))):
+        if(pop.getRatings() > best.getRatings()):
             best = pop
-
-    return best
+            index = i
+    return best,index
 
 
 

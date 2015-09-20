@@ -3,7 +3,7 @@ from first_gen import *
 from Population import *
 from crossover import *
 from PickPeople import *
-# from EvalFunctions import *
+from mutation import *
 
 GENERATION_SIZE = 10
 
@@ -26,4 +26,9 @@ for i in range(10):
     future_gen = pickPeople(future_gen, GENERATION_SIZE)
     print "Your You picked:"
     print future_gen
-    print " ----- "
+    future_gen = mutation(future_gen,response,goal)
+    print "Your mutated people: "
+    print future_gen
+
+    print("-------")
+    raw_input("Enter to continue")
