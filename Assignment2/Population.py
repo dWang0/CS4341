@@ -4,14 +4,14 @@ class Population:
     ratings = []
 
     def __init__(self, children=[]):
-        self.children = []
+        self.children = children
         self.ratings = None
 
     def __hash__(self):
         return hash(self.children) + hash(self.ratings) * hash(13)
 
     def __str__(self):
-        return str(self.children)
+        return "Rating: "+str(self.ratings)+" members: "+str(self.children)
     def __repr__(self):
         return self.__str__()
 

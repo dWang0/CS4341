@@ -13,5 +13,5 @@ def readcsv(name):
 
 
 ###main
-response = readcsv("list1.txt")
-print (response)
+# response = readcsv("list1.txt")
+# print (response)
