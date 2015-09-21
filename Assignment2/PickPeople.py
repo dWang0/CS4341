@@ -4,24 +4,26 @@ __author__ = 'Ray'
 #(the most fit populations) repaces the weakest link with the strongest
 def pickPeople(list_of_pop, num_pops):
     sorted_pop = []
-
+    i = 0
     ## Sorts the population by the best pop to worst pop
     for i in range(len(list_of_pop)):
         temp,index = getBestPop(list_of_pop)
         sorted_pop.append(temp)
         list_of_pop.pop(index)
     ## Caps the number of pops
+    ## Idk what this is right now, but I think this contributes to a problem
     if num_pops >= len(sorted_pop):
-        num_pops = 1
+        num_pops = len(sorted_pop)
 
     best_pops = []
 
+    i = 0
     ## Get the first part of the list: length of list_of_pop - num_pops
-    for i in range(0,(len(sorted_pop)-num_pops),1):
+    for i in range(0,num_pops,1):
         best_pops.append(sorted_pop[i])
 
     ## Fill the rest of the list.
-    for i in range((len(sorted_pop)-num_pops),len(sorted_pop)-1,1):
+    for i in range(num_pops,len(sorted_pop),1):
         best_pops.append(sorted_pop[0])
 
     return best_pops
