@@ -1,8 +1,16 @@
 __author__ = 'Ray'
 
-#Given a list of population, return the list of populations with the highest ratings
-#(the most fit populations) repaces the weakest link with the strongest
+#
 def pickPeople(list_of_pop, num_pops):
+    """
+    Given a list of population, return the list of populations with the highest ratings
+    (the most fit populations) repaces the weakest link with the strongest
+
+    :param list_of_pop: Takes in a generation
+    :param num_pops: the number of populations in the generation to carry forward
+
+    :return:The selected generation for mating
+    """
     sorted_pop = []
     i = 0
     ## Sorts the population by the best pop to worst pop
@@ -10,8 +18,8 @@ def pickPeople(list_of_pop, num_pops):
         temp,index = getBestPop(list_of_pop)
         sorted_pop.append(temp)
         list_of_pop.pop(index)
-    ## Caps the number of pops
-    ## Idk what this is right now, but I think this contributes to a problem
+    ## Caps the number of pops to 1:
+    ## If you are supposed to pop more people in the list, then only remove one person
     if num_pops >= len(sorted_pop):
         num_pops = len(sorted_pop)
 
@@ -23,10 +31,13 @@ def pickPeople(list_of_pop, num_pops):
         best_pops.append(sorted_pop[i])
 
     ## Fill the rest of the list.
-    for i in range(num_pops,len(sorted_pop),1):
-        best_pops.append(sorted_pop[0])
+    if i == len(sorted_pop):
+        return best_pops
+    else:
+        for i in range(num_pops,len(sorted_pop),1):
+            best_pops.append(sorted_pop[0])
 
-    return best_pops
+        return best_pops
 
 
 def getWorstPop(list_of_pop):

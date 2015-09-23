@@ -5,50 +5,45 @@ from crossover import *
 from PickPeople import *
 from mutation import *
 
-GENERATION_SIZE = 10
+GENERATION_SIZE = 4
+GENERATION_REMOVE = 1
+MAX_GENERATION = 30
 
 
 
 response = readcsv("list1.txt")
-print response
+# print response
 goal = response.pop(0)
-print goal,response
+# print goal,response
 
 f_gen = first_gen(response,GENERATION_SIZE, goal)
 print f_gen
 
+best_pop = None
 future_gen = []
-future_gen = f_gen
-for i in range(30):
-    if i == 0:
-        future_gen = eval_pop(future_gen,goal)
-        print "Your first evaluated generation:"
-        print future_gen
-    else:
-        #future_gen = eval_pop(future_gen,goal)
-        #future_gen = eval_pop(future_gen,goal)
-        print "This is the current generation:"
-        print future_gen
-    best, index = getBestPop(future_gen)
-    if(best.getRatings() == 100):
-        print ("One of the babies meets the goal. We will stop here, generation: ", i)
-        print best
-        break
-    #this variable is the number of "best fit population we want to pick for the next gen
-    num_picked = 9
-    future_gen = pickPeople(future_gen, num_picked)
-    print "Your You picked:"
-    print future_gen
+future_gen.extend(f_gen)
+for NUM_GEN in range(30):
+    future_gen = eval_pop(future_gen,goal)
+    # print("Your future gen is: ",future_gen)
+
+    num_picked = GENERATION_SIZE-GENERATION_REMOVE              ## Get the number of populations to take
+    future_gen = pickPeople(future_gen, num_picked)             ## Set the genration to the 'num_picked' populations, with the removed pop replaced with the top pop
+    # print ("Your You picked: ",future_gen)
+
+    future_gen = crossover(future_gen, None)
+    # print("Your crossover gen is: ",future_gen)
 
     future_gen = mutation(future_gen, response, goal, 0)
+    # print ("Your mutated gen is: ",future_gen)
+
     future_gen = eval_pop(future_gen,goal)
-    print "Your mutated people: "
-    print future_gen
-    best, index = getBestPop(future_gen)
-    #if on the the next generation have a rating of 100, stahhhp
-    if(best.getRatings() == 100):
-        print ("One of the babies meets the goal. We will stop here, generation: ", i)
+    # print ("Your Re-Evaluated gen is: ",future_gen)
+
+    best_pop,index = getBestPop(future_gen)
+    if best_pop.getRatings() == 100:
         break
 
-    print("-------")
-    #raw_input("Enter to continue")
+print "You have finished, here is your population: "
+print best_pop
+print "It took "+str(NUM_GEN)+ "generations."
+

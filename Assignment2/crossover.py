@@ -4,11 +4,17 @@ from random import randint
 
 def crossover(pop_list, num_lists):
     ret_list = []
+    skip = False
     for i in range(0,len(pop_list),1):
-        l1,l2 = cross_pop(pop_list[i],pop_list[i+1])
-        i = i+1
-        ret_list.append(Population(l1))
-        ret_list.append(Population(l1))
+        if not skip:
+            l1,l2 = cross_pop(pop_list[i].getChildren(),pop_list[i+1].getChildren())
+            ret_list.append(Population(l1))
+            ret_list.append(Population(l2))
+            skip = True
+        else:
+            skip = False
+            continue
+
         
     return ret_list
 
@@ -40,8 +46,6 @@ def cross_pop(list_1, list_2):
 def split_list(alist, wanted_parts=1):
     """ This split lists function was found at:
     http://stackoverflow.com/questions/752308/split-list-into-smaller-lists
-
-
     """
     length = len(alist)
     return [ alist[i*length // wanted_parts: (i+1)*length // wanted_parts]
