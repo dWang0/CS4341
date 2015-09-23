@@ -1,7 +1,11 @@
 __author__ = 'troyhughes'
 
-def mutation(pop_list,default_list,goal):
-    for pop in pop_list:
-        pop.mutate(default_list,goal)
+#param: index: the population to skip
+def mutation(pop_list,default_list,goal,index):
+    for i in range(len(pop_list)):
+        if (i == index):
+            continue
+        else:
+            pop_list[i].mutate(default_list,goal)
 
     return pop_list

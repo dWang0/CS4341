@@ -48,6 +48,7 @@ class Population:
             used.append(new_index)
             working[switch] = default_list[new_index]
             if (sum(working) < goal):
+                self.children = working
                 return True
         return False
 
