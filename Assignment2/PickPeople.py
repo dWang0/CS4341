@@ -78,8 +78,19 @@ def pop_eval_one( pop_list, goal):
     rating = (float(pop_sum)/int(goal))*100
     return int(rating)
 
+def pop_eval_two(b1,b2,b3, goal):
 
-def eval_pop(pop_list,goal):
+    b1_rate = b1[0]*b1[1]
+    for b in range(2,len(b1),1):
+        b1_rate = b1_rate * b1[b]
+    b2_rate = sum(b2)
+
+    result = ((b1_rate)+(b2_rate))/2.0
+
+    return result
+
+
+def eval_pop(pop_list,goal,function=pop_eval_one):
     for pop in pop_list:
-        pop.evalPop(pop_eval_one, goal)
+        pop.evalPop(function, goal)
     return pop_list

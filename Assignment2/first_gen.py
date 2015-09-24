@@ -71,7 +71,7 @@ def poptwofg(possible_list, num_pop):
         test = Poptwo(b1,b2,b3)
         test.evalPop(fge2,None)
 
-        if (test.getRating() == 0):
+        if (test.getRatings() == 0):
             continue
         else:
             response[i].setPop(b1,b2,b3)
