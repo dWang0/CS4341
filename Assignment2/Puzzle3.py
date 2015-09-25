@@ -11,18 +11,18 @@ def isLegal(tower):
     for i in range(0, len(tower)):
         thisPiece = tower[i]
         lastPiece = tower[i-1]
-        if (i == 0) and (thisPiece.getType() != 'door'):
-            return 1
-        if (i == len(tower) - 1) and (thisPiece.getType() != 'lookout'):
-            return 2
-        if thisPiece.getType != 'wall':
-            return 3
-        if thisPiece.getWidth() > lastPiece.getWidth():
-            return 4
-        if thisPiece.getStrength() < len(tower) - i:
-            return 5
+        if (i == 0) and (thisPiece.getType() == 'door'):
+            continue
         else:
-            return True
+            if (i == len(tower) - 1) and (thisPiece.getType() != 'lookout'):
+                return 2
+            if thisPiece.getType != 'wall':
+                return 3
+            if thisPiece.getWidth() > lastPiece.getWidth():
+                return 4
+            if thisPiece.getStrength() < len(tower) - i:
+                return 5
+        return True
 
 
 ##main##
