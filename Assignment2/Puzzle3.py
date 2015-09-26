@@ -5,31 +5,41 @@ from Piece import Piece
 #tower of size 0 or 1 is not a legal tower
 def isLegal(tower):
     if len(tower) <= 0:
-        return False
+        return 0
 
     #conditions for a legal tower
     for i in range(0, len(tower)):
         thisPiece = tower[i]
-        lastPiece = tower[i-1]
-        if (i == 0) and (thisPiece.getType() == 'door'):
-            continue
+
+        if i == 0:
+            if thisPiece.getType() == 'door':
+                continue
+            else:
+                return 1
         else:
-            if (i == len(tower) - 1) and (thisPiece.getType() != 'lookout'):
+            if thisPiece.getType() != 'wall' and i != len(tower) - 1:
                 return 2
-            if thisPiece.getType != 'wall':
-                return 3
-            if thisPiece.getWidth() > lastPiece.getWidth():
-                return 4
-            if thisPiece.getStrength() < len(tower) - i:
-                return 5
-        return True
+            else:
+                lastPiece = tower[i-1]
+                if thisPiece.getWidth() > lastPiece.getWidth():
+                    return 3
+                else:
+                    if thisPiece.getStrength() <= len(tower) - 1 - i:
+                        return 4
+                    else:
+                        if i == len(tower) - 1 and thisPiece.getType() != 'lookout':
+                            return False
+                        else:
+                            continue
+
+    return True
 
 
 ##main##
-door = Piece('door',5,3,2)
+door = Piece('door',5,5,2)
 wall1 = Piece('wall',5,5,1)
-wall2 = Piece('wall',4,3,1)
-wall3 = Piece('wall',3,3,2)
+wall2 = Piece('wall',4,5,1)
+wall3 = Piece('wall',3,5,2)
 lookout = Piece('lookout',3,1,2)
 
 #legal towers
@@ -46,3 +56,4 @@ listoftowers = [tower1, tower2, tower3, tower4, tower5]
 
 for t in listoftowers:
     print isLegal(t)
+
