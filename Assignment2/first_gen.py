@@ -1,6 +1,7 @@
 from Population import *
 from random import randint
 from crossover import split_list
+from Puzzle3 import *
 
 
 def first_gen(possible_list, num_pop,goal):
@@ -101,3 +102,13 @@ def fge2(b1,b2,b3,goal):
         return 0
     else:
         return 1
+
+def popthreefg(possible_list, num_pop):
+    response = []
+    ## This is done to resolve the scoping probles in Python
+    for i in range(0,num_pop):
+        response.append(Popthree([]))
+
+    ##Randomly generate a tower length <= to the possible pieces
+
+    ##randomly assign pieces to be appended to a tower
