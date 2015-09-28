@@ -1,5 +1,7 @@
 from Piece import Piece
 from random import randint
+from mutation import *
+from PickPeople import *
 
 ##constraints
 # tower is a list of Piece
@@ -39,34 +41,34 @@ def isLegal(tower):
 class Popthree:
 
     def __init__(self, tower=[]):
-        self.tower = tower
+        self.children = tower
         self.rating = None
 
 
     def __hash__(self):
-        return hash(self.towers) * hash(13) + hash(5)
+        return hash(self.children) * hash(13) + hash(5)
 
     def __str__(self):
-        return "Tower: " + str(self.tower) + "Rating: " + str(self.rating)
+        return "Tower: " + str(self.children) + "Rating: " + str(self.rating)
 
     def __repr__(self):
         return self.__str__()
 
     def getTower(self):
-        return self.tower
+        return self.children
 
-    def getRating(self):
+    def getRatings(self):
         return self.rating
 
     def setRating(self, rating):
         self.rating = rating
 
     def setPop(self,tower):
-        self.tower = tower
+        self.children = tower
 
     def getCost(self):
         sumCost = 0
-        for piece in self.tower:
+        for piece in self.children:
             sumCost = sumCost + piece.getCost()
         return sumCost
 
@@ -94,9 +96,8 @@ class Popthree:
                 new_index = randint(0,len(default_list)-1)
             used.append(new_index)
             working[switch] = default_list[new_index]
-            if (sum(working) < goal):
-                self.children = working
-                return True
+            self.children = working
+            return True
         return False
 
 
@@ -132,18 +133,20 @@ def popthreefg(possible_list, num_pop):
 
 def pop_eval3(list_of_pop):
     for pop in list_of_pop:
-        rating = 10 + (len(pop.tower) ** 2) - pop.getCost()
+        rating = 10 + (len(pop.children) ** 2) - pop.getCost()
         pop.setRating(rating)
 
 
     ##main##
 def puzzle3():
     door = Piece('door',5,5,2)
+    door2 = Piece('door',3,3,10)
     wall1 = Piece('wall',5,5,1)
     wall2 = Piece('wall',4,5,1)
     wall3 = Piece('wall',3,5,2)
+    wall4 = Piece('wall',1,2,3)
     lookout = Piece('lookout',3,1,2)
-    pieces = [door, wall1, wall2, wall3, lookout]
+    pieces = [door, wall1, wall2, wall3, lookout, wall4, door2]
 
 
 
@@ -160,7 +163,15 @@ def puzzle3():
 
     gen3 = popthreefg(pieces, 5)
     pop_eval3(gen3)
+    print "First gen:"
+    print gen3
 
+    gen3 = pickPeople(gen3, 4)
+    best, i = getBestPop(gen3)
+    print "You picked:"
+    print gen3
 
+    gen3 = mutation(gen3, pieces, best.getRatings(),0)
+    print "Mutated gen:"
     print gen3
 
