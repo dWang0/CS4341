@@ -4,10 +4,11 @@ from Population import *
 from crossover import *
 from PickPeople import *
 from mutation import *
+from time import *
 __author__ = 'troyhughes'
 
 
-def run_p2(input_sring,MAX_GENERATION=30,GENERATION_SIZE=10,GENERATION_REMOVE=1):
+def run_p2(input_sring,TIME=20,GENERATION_SIZE=10,GENERATION_REMOVE=1):
     # GENERATION_SIZE = 4
     # GENERATION_REMOVE = 1
     # MAX_GENERATION = 30
@@ -26,7 +27,11 @@ def run_p2(input_sring,MAX_GENERATION=30,GENERATION_SIZE=10,GENERATION_REMOVE=1)
     future_gen = []
     future_gen.extend(f_gen)
 
-    for NUM_GEN in range(MAX_GENERATION):
+    tstart = time()
+    NUM_GEN = 0
+    DIFF = time()-tstart
+    while (DIFF) < TIME:
+        NUM_GEN = NUM_GEN + 1
         future_gen = eval_pop(future_gen,goal,pop_eval_two)
         # print"Your future gen is: "
         # for pop in future_gen:
@@ -57,9 +62,10 @@ def run_p2(input_sring,MAX_GENERATION=30,GENERATION_SIZE=10,GENERATION_REMOVE=1)
 
 
         best_pop,index = getBestPop(future_gen)
-
+        DIFF = time()-tstart
 
     print "You have finished, here is your population: "
     print best_pop
     best_pop.score()
     print "It took "+str(NUM_GEN)+ "generations."
+    print "And it required "+str(DIFF)+" seconds"

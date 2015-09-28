@@ -15,9 +15,9 @@ def crossover(pop_list, num_lists):
             skip = False
             continue
 
-    for i in ret_list:
-        if not i.valid():
-            print "INVALID! AHHHH"
+    # for i in ret_list:
+    #     if not i.valid():
+    #         print "INVALID! AHHHH"
 
         
     return ret_list
