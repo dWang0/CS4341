@@ -1,6 +1,7 @@
 from Population import *
 from random import randint
 from crossover import split_list
+from Puzzle3 import *
 
 
 def first_gen(possible_list, num_pop,goal):
@@ -101,3 +102,4 @@ def fge2(b1,b2,b3,goal):
         return 0
     else:
         return 1
+
