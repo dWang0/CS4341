@@ -16,17 +16,17 @@ def isLegal(tower):
             if thisPiece.getType() == 'door':
                 continue
             else:
-                return 1
+                return False
         else:
             if thisPiece.getType() != 'wall' and i != len(tower) - 1:
-                return 2
+                return False
             else:
                 lastPiece = tower[i-1]
                 if thisPiece.getWidth() > lastPiece.getWidth():
-                    return 3
+                    return False
                 else:
                     if thisPiece.getStrength() <= len(tower) - 1 - i:
-                        return 4
+                        return False
                     else:
                         if i == len(tower) - 1 and thisPiece.getType() != 'lookout':
                             return False
@@ -35,10 +35,11 @@ def isLegal(tower):
 
     return True
 
+#this population consists of a tower, which is a list of pieces, and a rating
 class Popthree:
 
-    def __init__(self, towers=[]):
-        self.towers = towers
+    def __init__(self, tower=[]):
+        self.tower = tower
         self.rating = None
 
 
@@ -46,26 +47,31 @@ class Popthree:
         return hash(self.towers) * hash(13) + hash(5)
 
     def __str__(self):
-        return "Towers: " + str(self.towers)
+        return "Tower: " + str(self.tower) + "Rating: " + str(self.rating)
+
     def __repr__(self):
         return self.__str__()
 
-    def getTowers(self):
-        return self.towers
+    def getTower(self):
+        return self.tower
 
     def getRating(self):
         return self.rating
 
-    def setPop(self,towers):
-        self.towers = towers
+    def setRating(self, rating):
+        self.rating = rating
+
+    def setPop(self,tower):
+        self.tower = tower
+
+    def getCost(self):
+        sumCost = 0
+        for piece in self.tower:
+            sumCost = sumCost + piece.getCost()
+        return sumCost
 
 
-    ## For this, the function should evaluate a tower and it's pieces
-    ##The goal should be a tower that uses all of it's pieces
-    ##Calculating rating might be a bit trickier, because its 1-+height^2 - cost
-    ##which means in some cases, shorter towers could have higher score bc of cost
-    def evalPop(self, function,goal):
-        self.rating = function(self.towers,goal)
+
 
 ## NOT TWEEKED FOR PUZZLE 3 YET
     def mutate(self,default_list,goal):
@@ -96,6 +102,38 @@ class Popthree:
 
 
 
+def popthreefg(possible_list, num_pop):
+
+    list_of_towers = []
+
+    while len(list_of_towers) < num_pop:
+
+        ##Randomly generate a tower length <= to the possible pieces
+        tower_length = randint(2, len(possible_list) - 1)
+        used = []
+        a_tower = []
+
+
+        ##randomly assign pieces to be appended to a tower
+        i = 0
+        index = randint(0, tower_length)
+        for i in range (0, tower_length):
+            while index in used:
+                index = randint(0, tower_length)
+            a_tower.append(possible_list[index])
+            used.append(index)
+            index = randint(0, tower_length)
+
+        if(isLegal(a_tower)):
+            tower = Popthree(a_tower)
+            list_of_towers.append(tower)
+
+    return list_of_towers
+
+def pop_eval3(list_of_pop):
+    for pop in list_of_pop:
+        rating = 10 + (len(pop.tower) ** 2) - pop.getCost()
+        pop.setRating(rating)
 
 
     ##main##
@@ -105,6 +143,9 @@ def puzzle3():
     wall2 = Piece('wall',4,5,1)
     wall3 = Piece('wall',3,5,2)
     lookout = Piece('lookout',3,1,2)
+    pieces = [door, wall1, wall2, wall3, lookout]
+
+
 
     #legal towers
     tower1 = [door, wall1, wall2, wall3, lookout]
@@ -117,8 +158,9 @@ def puzzle3():
 
     listoftowers = [tower1, tower2, tower3, tower4, tower5]
 
+    gen3 = popthreefg(pieces, 5)
+    pop_eval3(gen3)
 
-    p3 = Popthree(listoftowers)
 
-    print p3
+    print gen3
 

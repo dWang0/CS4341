@@ -9,14 +9,14 @@ from sys import argv
 #                     Input Parsing                         #
 #############################################################
 global WHICH_FUNCTION
-try:
-    WHICH_FUNCTION = argv[1]
-except IndexError:
-    sys.exit()
+# try:
+#     WHICH_FUNCTION = argv[1]
+# except IndexError:
+#     sys.exit()
+#
+# WHICH_FUNCTION = int(WHICH_FUNCTION)
 
-WHICH_FUNCTION = int(WHICH_FUNCTION)
-
-
+WHICH_FUNCTION = 3
 WHICH_FILE = "list2.txt"
 
 if WHICH_FUNCTION == 1:

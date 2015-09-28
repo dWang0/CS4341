@@ -103,12 +103,3 @@ def fge2(b1,b2,b3,goal):
     else:
         return 1
 
-def popthreefg(possible_list, num_pop):
-    response = []
-    ## This is done to resolve the scoping probles in Python
-    for i in range(0,num_pop):
-        response.append(Popthree([]))
-
-    ##Randomly generate a tower length <= to the possible pieces
-
-    ##randomly assign pieces to be appended to a tower
