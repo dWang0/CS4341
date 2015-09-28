@@ -77,6 +77,7 @@ class Popthree:
 
 ## NOT TWEEKED FOR PUZZLE 3 YET
     def mutate(self,default_list,goal):
+
         """
 
         :param default_list: List of possible poptwo values
@@ -86,7 +87,7 @@ class Popthree:
         """
         starting = [] ; starting.extend(self.children) ## Make a value copy of children, not a referenced copy
         working = [] ; working.extend(self.children)
-        switch = randint(0,len(starting)-1)
+        switch = randint(0,len(working)-1)
 
         ## Mutate into legal
         used = []
@@ -94,11 +95,23 @@ class Popthree:
             new_index = randint(0,len(default_list)-1)
             while new_index in used:
                 new_index = randint(0,len(default_list)-1)
-            used.append(new_index)
-            working[switch] = default_list[new_index]
-            self.children = working
-            return True
+
+            rand = randint(0,2)
+            if rand == 0:
+                working[switch] = default_list[new_index]
+                used.append(new_index)
+            elif rand == 1:
+                working.insert(switch, default_list[new_index])
+                used.append(new_index)
+            else:
+                working.remove(working[randint(0,len(working) - 1)])
+
+            if(isLegal(working)):
+                self.children = working
+                return True
         return False
+
+
 
 
 
@@ -111,16 +124,17 @@ def popthreefg(possible_list, num_pop):
 
         ##Randomly generate a tower length <= to the possible pieces
         tower_length = randint(2, len(possible_list) - 1)
+
         used = []
         a_tower = []
 
 
         ##randomly assign pieces to be appended to a tower
         i = 0
-        index = randint(0, tower_length)
+        index = randint(0, len(possible_list) - 1)
         for i in range (0, tower_length):
             while index in used:
-                index = randint(0, tower_length)
+                index = randint(0, len(possible_list) - 1)
             a_tower.append(possible_list[index])
             used.append(index)
             index = randint(0, tower_length)
@@ -145,8 +159,11 @@ def puzzle3():
     wall2 = Piece('wall',4,5,1)
     wall3 = Piece('wall',3,5,2)
     wall4 = Piece('wall',1,2,3)
+    wall5 = Piece('wall',1,10,0)
     lookout = Piece('lookout',3,1,2)
-    pieces = [door, wall1, wall2, wall3, lookout, wall4, door2]
+    lookout2 = Piece('lookout',1,1,1)
+    #pieces = [door, wall1, wall2, wall3, lookout, wall4, wall5, wall5, wall5, wall5, door2]
+    pieces = [door, wall5, wall5, wall5, wall5, wall5, wall5, wall5, wall5, wall5, lookout2]
 
 
 
@@ -161,17 +178,30 @@ def puzzle3():
 
     listoftowers = [tower1, tower2, tower3, tower4, tower5]
 
-    gen3 = popthreefg(pieces, 5)
-    pop_eval3(gen3)
-    print "First gen:"
-    print gen3
+    GENERATIONS = 10
 
-    gen3 = pickPeople(gen3, 4)
-    best, i = getBestPop(gen3)
-    print "You picked:"
-    print gen3
+    for i in range(0, GENERATIONS):
+        if i == 0:
+            gen3 = popthreefg(pieces, 10)
+            pop_eval3(gen3)
+            print "First gen:"
+            print gen3
 
-    gen3 = mutation(gen3, pieces, best.getRatings(),0)
-    print "Mutated gen:"
-    print gen3
+        gen3 = pickPeople(gen3, 4)
+        pop_eval3(gen3)
+        best, i = getBestPop(gen3)
+        print "You picked:"
+        print gen3
+
+        #mutate but keep the best2
+        keep = [gen3[0], gen3[1]]
+        new_babies = popthreefg(pieces, len(gen3) - 2)
+        keep.extend(new_babies)
+
+        gen3 = keep
+
+        #gen3 = mutation(gen3, pieces, best.getRatings(),0)
+        pop_eval3(gen3)
+        print "Mutated gen:"
+        print gen3
 
